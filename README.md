@@ -11,7 +11,7 @@
 ### 3.Linux
 1.[]()
 ### 4.3d高斯溅射
-
+[3D_GaussianSplatting](./3D_GaussianSplatting)
 ## 3.相关项目文件
 
 ​
