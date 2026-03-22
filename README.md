@@ -9,7 +9,7 @@
 ### 2.GIT
 1.[git初步学习-2025.11.17笔记](https://blog.csdn.net/xun313/article/details/153137893?fromshare=blogdetail&sharetype=blogdetail&sharerId=153137893&sharerefer=PC&sharesource=xun313&sharefrom=from_link)
 ### 3.Linux
-1.[linux](./linux)
+1.[linux](./note/linux)
 ### 4.3d高斯溅射
 1.[3D_GaussianSplatting](./3D_GaussianSplatting)
 ## 3.相关项目文件
