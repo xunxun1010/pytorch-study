@@ -1,5 +1,15 @@
-### 3D Gaussian Splatting
+### 《3D Gaussian Splatting for Real-Time Radiance Field Rendering》论文学习
 参考文章：
 1.https://arxiv.org/pdf/2308.04079
 2.https://www.tangyuecan.com/2025/05/18/%E4%B8%89%E7%BB%B4%E9%AB%98%E6%96%AF%E6%B3%BC%E6%BA%85%E5%AE%9E%E8%B7%B5%E4%B8%8E%E5%8E%9F%E7%90%86#%E6%80%BB%E7%BB%93
 3.https://zhuanlan.zhihu.com/p/680669616
+# 1前言
+## 1.1主要贡献
+1.引入各向异性3D高斯（Anisotropic 3D Gaussians）：提出了一种高效、非结构化的三维场景表示方法，利用3D高斯函数作为几何原语来捕捉复杂场景的辐射场。
+2.自适应密度控制（Adaptive Density Control）：设计了一套交替进行的优化与密度控制方案，能够通过克隆（Clone）或分裂（Split）高斯点来精准匹配场景几何。
+3.高速微分渲染器（Fast Differentiable Renderer）：开发了基于瓦片的（Tile-based）光栅化算法，支持各向异性点喷绘（Splatting），在保证 SOTA 级画质的同时实现了1080p分辨率下的实时渲染。
+## 1.2解决问题
+旨在解决高质量三维场景重建与实时渲染之间的矛盾。
+在以往的技术方案中，高质量的视图合成（如 Mip-NeRF360）通常需要极高的训练和渲染成本（甚至需要数十小时训练，且渲染一帧需数秒） 。而现有的快速方法往往以牺牲视觉质量为代价，且难以在 1080p 分辨率下达到每秒 30 帧以上的工业级实时显示速率 。本文的目标是在保持极速优化时间的同时，提供顶级的视觉效果和真正的实时交互体验 。
+
+
