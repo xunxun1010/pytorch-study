@@ -1,12 +1,12 @@
 ### 《3D Gaussian Splatting for Real-Time Radiance Field Rendering》论文学习
 参考文章：
-1.https://arxiv.org/pdf/2308.04079
-2.https://www.tangyuecan.com/2025/05/18/%E4%B8%89%E7%BB%B4%E9%AB%98%E6%96%AF%E6%B3%BC%E6%BA%85%E5%AE%9E%E8%B7%B5%E4%B8%8E%E5%8E%9F%E7%90%86#%E6%80%BB%E7%BB%93
-3.https://zhuanlan.zhihu.com/p/680669616
+1. [3DGS 原始论文](https://arxiv.org/pdf/2308.04079)
+2. [三维高斯泼溅的实践与原理](https://www.tangyuecan.com/2025/05/18/%E4%B8%89%E7%BB%B4%E9%AB%98%E6%96%AF%E6%B3%BC%E6%BA%85%E5%AE%9E%E8%B7%B5%E4%B8%8E%E5%8E%9F%E7%90%86#%E6%80%BB%E7%BB%93)
+3. [一文带你入门 3D Gaussian Splatting](https://zhuanlan.zhihu.com/p/680669616)
 # 1前言
 ## 1.1主要贡献
-1.引入各向异性3D高斯（Anisotropic 3D Gaussians）：提出了一种高效、非结构化的三维场景表示方法，利用3D高斯函数作为几何原语来捕捉复杂场景的辐射场。
-2.自适应密度控制（Adaptive Density Control）：设计了一套交替进行的优化与密度控制方案，能够通过克隆（Clone）或分裂（Split）高斯点来精准匹配场景几何。
+1.引入各向异性3D高斯（Anisotropic 3D Gaussians）：提出了一种高效、非结构化的三维场景表示方法，利用3D高斯函数作为几何原语来捕捉复杂场景的辐射场。  
+2.自适应密度控制（Adaptive Density Control）：设计了一套交替进行的优化与密度控制方案，能够通过克隆（Clone）或分裂（Split）高斯点来精准匹配场景几何。  
 3.高速微分渲染器（Fast Differentiable Renderer）：开发了基于瓦片的（Tile-based）光栅化算法，支持各向异性点喷绘（Splatting），在保证 SOTA 级画质的同时实现了1080p分辨率下的实时渲染。
 ## 1.2解决问题
 旨在解决高质量三维场景重建与实时渲染之间的矛盾。
@@ -16,7 +16,8 @@
 不同的高斯椭球本质上代表其实就是一个有限空间内某种点数据的分布情况，三维点云数据在局部空间的特征便可以形成一个三维高斯椭球。
 作用：假设我们现在有十亿个点的点云，经过某种方式将其中部分有相同特征的点分布情况整合为一个高斯椭球，这么一来最终得到的高斯椭球数量肯定相较十亿数量便会大大降低，所以也就是意味着我们将原始的点云数据通过高斯分布的方式进行了压缩
 最终的存储空间占用与渲染计算量就会极大的降低。
-[原理](note/53edca731853563a677953dcf9feac06.png)
+<img width="594" height="315" alt="6480fa466f62a6eb48e8d7cd9e7b786c" src="https://github.com/user-attachments/assets/1674fb03-38f5-410c-8a81-6451b20d7031" />
+
 ## 1.4对比
 Nerf：纯连续的、隐式表达在可微空间内
 Mesh：纯离散的（虽然可以插值）、显式表达在三维空间内
@@ -25,10 +26,14 @@ Mesh：纯离散的（虽然可以插值）、显式表达在三维空间内
 
 随着 scale 的增加，一个个椭球体从原来的圆点逐渐变化成更“高级”的椭球体，而这些变化之后的椭球体，就组成了整个模型。
 
-# 2.1方法
+# 2.1术语解释
 《3D Gaussian Splatting for Real-Time Radiance Field Rendering》：
-3D Gaussian: 是文章构建模型的核心元素，即三维高斯球。
-Splatting:是一种传统的3D->2D的光栅化渲染方式。文章中的 Splatting 方法和传统的有所区别。
-Radiance Field: 即辐射场。辐射场（RF）是用于表达三维空间中光的分布和光强的一个模型。
-公式
+1. 3D Gaussian: 是文章构建模型的核心元素，即三维高斯球。  
+2. Splatting:是一种传统的3D->2D的光栅化渲染方式。文章中的Splatting方法和传统的有所区别。
+3. Radiance Field: 即辐射场。辐射场（RF）是用于表达三维空间中光的分布和光强的一个模型。  
+3D 高斯表示的辐射场公式如下：
+<img width="486" height="60" alt="image" src="https://github.com/user-attachments/assets/af607132-4fb2-42e7-b394-0255234f56dd" />
+
+4. Real-Time Rendering: 实时渲染，即从三维重建后的模型，渲染到二维的显示。这是非常重要的一步。实时是指这种方法的速度非常快，可以达到实时级别（>30FPS）。
+
 
