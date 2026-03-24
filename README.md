@@ -11,7 +11,7 @@
 ### 3.Linux
 1.[linux](./note/linux)
 ### 4.3d高斯溅射
-1.[3D_GaussianSplatting](./note/3D_GaussianSplatting)
+1.[3D_GaussianSplatting](./note/3D_GaussianSplatting.md)
 ## 3.相关项目文件
 
 ​
